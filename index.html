@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Town builds</title>
+  <title>Image Slider</title>
 
   <style>
     * {
@@ -13,7 +13,6 @@
     html,
     body {
       margin: 0;
-      width: 100%;
       min-height: 100%;
     }
 
@@ -22,77 +21,219 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
+
+      background: #111 center / cover no-repeat;
       color: white;
       font-family: Arial, sans-serif;
 
-      background-image: url("./Background2.png");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      transition: background-image 0.7s ease-in-out;
+    }
+
+    /* The fading layer used during transitions */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: inherit;
+      opacity: 1;
+      transition: opacity 0.35s ease;
     }
 
     .text-box {
       width: min(90%, 700px);
-      padding: 40px;
-      border-radius: 15px;
+      padding: clamp(25px, 5vw, 50px);
+      border-radius: 20px;
       background: rgba(0, 0, 0, 0.65);
       text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
     }
 
     .text-box h1 {
       margin-top: 0;
+      font-size: clamp(28px, 5vw, 48px);
     }
 
-    .slider {
-      width: 90%;
-      margin-top: 25px;
+    .text-box p {
+      font-size: clamp(16px, 2vw, 20px);
+      line-height: 1.6;
     }
 
-    input[type="range"] {
+    .slider-area {
+      margin-top: 30px;
+    }
+
+    #background-slider {
       width: 100%;
+      appearance: none;
+      height: 8px;
+      border-radius: 10px;
+      outline: none;
+      cursor: pointer;
+      background: linear-gradient(
+        to right,
+        #ffffff 0%,
+        #ffffff 0%,
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.25) 100%
+      );
+    }
+
+    #background-slider::-webkit-slider-thumb {
+      appearance: none;
+      width: 23px;
+      height: 23px;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid #555;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    #background-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    #background-slider::-moz-range-thumb {
+      width: 19px;
+      height: 19px;
+      border-radius: 50%;
+      background: white;
+      border: 3px solid #555;
       cursor: pointer;
     }
 
-    #image-number {
-      margin-top: 10px;
-      font-size: 16px;
+    #image-label {
+      margin-top: 12px;
+      font-size: 15px;
+      opacity: 0.9;
+    }
+
+    #loading {
+      font-size: 14px;
+      opacity: 0.75;
     }
   </style>
 </head>
 
 <body>
   <div class="text-box">
-    <h1>My Town builds</h1>
+    <h1>My Website</h1>
 
     <p>
-      use the slider to change
+      Your text goes here.
     </p>
 
-    <div class="slider">
+    <div class="slider-area">
+      <div id="loading">Loading images...</div>
+
       <input
         type="range"
         id="background-slider"
-        min="2"
-        max="10"
-        value="2"
+        min="0"
+        max="0"
+        value="0"
         step="1"
+        hidden
       >
 
-      <div id="image-number">Background2</div>
+      <div id="image-label"></div>
     </div>
   </div>
 
   <script>
     const slider = document.getElementById("background-slider");
-    const imageNumber = document.getElementById("image-number");
+    const label = document.getElementById("image-label");
+    const loading = document.getElementById("loading");
 
-    slider.addEventListener("input", function () {
-      const number = slider.value;
-      const imageName = `Background${number}.png`;
+    const possibleImages = [];
 
-      document.body.style.backgroundImage = `url("./${imageName}")`;
-      imageNumber.textContent = `Background${number}`;
-    });
+    // Creates Background2.png through Background10.png
+    for (let number = 2; number <= 10; number++) {
+      possibleImages.push(`Background${number}.png`);
+    }
+
+    async function findAvailableImages() {
+      const availableImages = [];
+
+      for (const imageName of possibleImages) {
+        const image = new Image();
+
+        const loaded = new Promise((resolve) => {
+          image.onload = () => resolve(true);
+          image.onerror = () => resolve(false);
+        });
+
+        image.src = `./${imageName}`;
+
+        if (await loaded) {
+          availableImages.push({
+            name: imageName,
+            source: image.src
+          });
+        }
+      }
+
+      return availableImages;
+    }
+
+    function updateSliderFill() {
+      const percentage =
+        slider.max == 0
+          ? 0
+          : (slider.value / slider.max) * 100;
+
+      slider.style.background = `
+        linear-gradient(
+          to right,
+          white 0%,
+          white ${percentage}%,
+          rgba(255, 255, 255, 0.25) ${percentage}%,
+          rgba(255, 255, 255, 0.25) 100%
+        )
+      `;
+    }
+
+    function changeBackground(image) {
+      // Fade the current background out briefly
+      document.body.style.opacity = "0.75";
+
+      setTimeout(() => {
+        document.body.style.backgroundImage = `url("${image.source}")`;
+        label.textContent = image.name.replace(".png", "");
+        document.body.style.opacity = "1";
+      }, 180);
+    }
+
+    async function startSlider() {
+      const images = await findAvailableImages();
+
+      loading.remove();
+
+      if (images.length === 0) {
+        label.textContent = "No background images found";
+        return;
+      }
+
+      slider.hidden = false;
+      slider.min = 0;
+      slider.max = images.length - 1;
+      slider.value = 0;
+
+      // The first image is already loaded and ready
+      changeBackground(images[0]);
+      updateSliderFill();
+
+      slider.addEventListener("input", () => {
+        const selectedImage = images[slider.value];
+
+        changeBackground(selectedImage);
+        updateSliderFill();
+      });
+    }
+
+    startSlider();
   </script>
 </body>
 </html>
