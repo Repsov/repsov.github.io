@@ -3,59 +3,96 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Town builds </title>
+  <title>Town builds</title>
 
   <style>
     * {
       box-sizing: border-box;
     }
 
+    html,
     body {
       margin: 0;
+      width: 100%;
+      min-height: 100%;
+    }
+
+    body {
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      color: white;
+      font-family: Arial, sans-serif;
 
-      background-image: url("Background2.png");
+      background-image: url("./Background2.png");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-
-      font-family: Arial, sans-serif;
-      color: white;
     }
 
     .text-box {
       width: min(90%, 700px);
       padding: 40px;
       border-radius: 15px;
-
-      /* Black with 65% opacity */
       background: rgba(0, 0, 0, 0.65);
-
       text-align: center;
     }
 
     .text-box h1 {
       margin-top: 0;
-      font-size: 42px;
     }
 
-    .text-box p {
-      font-size: 20px;
-      line-height: 1.6;
+    .slider {
+      width: 90%;
+      margin-top: 25px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      cursor: pointer;
+    }
+
+    #image-number {
+      margin-top: 10px;
+      font-size: 16px;
     }
   </style>
 </head>
 
 <body>
   <div class="text-box">
-    <h1>My town builds</h1>
+    <h1>My Town builds</h1>
 
     <p>
-      This here on the background is my town build
+      use the slider to change
     </p>
+
+    <div class="slider">
+      <input
+        type="range"
+        id="background-slider"
+        min="2"
+        max="10"
+        value="2"
+        step="1"
+      >
+
+      <div id="image-number">Background2</div>
+    </div>
   </div>
+
+  <script>
+    const slider = document.getElementById("background-slider");
+    const imageNumber = document.getElementById("image-number");
+
+    slider.addEventListener("input", function () {
+      const number = slider.value;
+      const imageName = `Background${number}.png`;
+
+      document.body.style.backgroundImage = `url("./${imageName}")`;
+      imageNumber.textContent = `Background${number}`;
+    });
+  </script>
 </body>
 </html>
