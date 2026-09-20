@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Website</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      background-image: url("background.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    .text-box {
+      width: min(90%, 700px);
+      padding: 40px;
+      border-radius: 15px;
+
+      /* Black with 65% opacity */
+      background: rgba(0, 0, 0, 0.65);
+
+      text-align: center;
+    }
+
+    .text-box h1 {
+      margin-top: 0;
+      font-size: 42px;
+    }
+
+    .text-box p {
+      font-size: 20px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="text-box">
+    <h1>My Website</h1>
+
+    <p>
+      Type your text here. This text appears inside the slightly transparent
+      black block.
+    </p>
+  </div>
+</body>
+</html>
