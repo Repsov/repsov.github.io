@@ -5,161 +5,396 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://repsov.github.io/">
-  <meta property="og:title" content="Repsov | My Town Builds">
-  <meta property="og:description" content="A showcase of all my town builds.">
+  <meta property="og:title" content="Repsov | Roblox Developer">
+  <meta property="og:description" content="Developer and owner of Wiring test on Roblox.">
   <meta property="og:image" content="https://repsov.github.io/background.png">
   <meta property="og:site_name" content="Repsov">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Repsov | My Town Builds">
-  <meta name="twitter:description" content="A showcase of all my town builds.">
+  <meta name="twitter:title" content="Repsov | Roblox Developer">
+  <meta name="twitter:description" content="Developer and owner of Wiring test on Roblox.">
   <meta name="twitter:image" content="https://repsov.github.io/background.png">
-  <title>Image Slider</title>
+  <meta name="theme-color" content="#f2f0e8">
+  <title>Repsov | Roblox Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      box-sizing: border-box;
+    :root {
+      color-scheme: light;
+      --paper: #f2f0e8;
+      --ink: #192b27;
+      --muted: #64716b;
+      --line: #d7d9ce;
+      --lime: #d9f36a;
+      --orange: #e78359;
+      --forest: #203d34;
+      --display: "Space Grotesk", "Trebuchet MS", sans-serif;
+      --body: "DM Sans", "Trebuchet MS", sans-serif;
     }
 
-    html,
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      min-height: 100%;
+      min-width: 320px;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--body);
+      -webkit-font-smoothing: antialiased;
     }
-
-    body {
-      min-height: 100vh;
+    a { color: inherit; }
+    .wrap { width: min(1220px, calc(100% - 64px)); margin: 0 auto; }
+    .site-header {
+      height: 86px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      overflow: hidden;
-
-      background: #111 center / cover no-repeat;
-      color: white;
-      font-family: Arial, sans-serif;
-
-      transition: background-image 0.7s ease-in-out;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
     }
-
-    /* The fading layer used during transitions */
-    body::before {
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--ink);
+      text-decoration: none;
+      font: 700 20px var(--display);
+      letter-spacing: 0;
+    }
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      background: var(--ink);
+      color: var(--lime);
+      font: 700 14px var(--display);
+    }
+    .header-right { display: flex; align-items: center; gap: 34px; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .nav-links a:hover, .footer-link:hover { color: var(--orange); }
+    .availability {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .availability::before {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #79a96a;
       content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      background: inherit;
-      opacity: 1;
-      transition: opacity 0.35s ease;
     }
-
-    .text-box {
-      width: min(90%, 700px);
-      padding: clamp(25px, 5vw, 50px);
-      border-radius: 20px;
-      background: rgba(0, 0, 0, 0.65);
-      text-align: center;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+    .hero {
+      min-height: 600px;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: center;
+      gap: 68px;
+      padding: 66px 0 76px;
     }
-
-    .text-box h1 {
-      margin-top: 0;
-      font-size: clamp(28px, 5vw, 48px);
+    .hero-copy { animation: rise-in 650ms both; }
+    .eyebrow, .section-kicker {
+      margin: 0 0 22px;
+      color: var(--forest);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
     }
-
-    .text-box p {
-      font-size: clamp(16px, 2vw, 20px);
-      line-height: 1.6;
+    .role-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 22px;
+      padding: 8px 11px;
+      border: 1px solid var(--line);
+      color: var(--forest);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
     }
-
-    .slider-area {
-      margin-top: 30px;
+    .role-tag span { width: 7px; height: 7px; background: var(--orange); }
+    h1, h2, p { margin-top: 0; }
+    h1 {
+      max-width: 530px;
+      margin-bottom: 22px;
+      font: 700 76px/0.98 var(--display);
+      letter-spacing: 0;
     }
-
+    h1 em { color: var(--forest); font-style: normal; }
+    .intro {
+      max-width: 440px;
+      margin-bottom: 30px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 13px; }
+    .button {
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 0 19px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      transition: transform 180ms ease, background 180ms ease;
+    }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { background: var(--lime); color: var(--ink); }
+    .button-primary:hover { background: #cce954; }
+    .button-secondary { border: 1px solid var(--line); color: var(--ink); }
+    .button-secondary:hover { background: #e8e8dc; }
+    .button-arrow { font-size: 17px; font-weight: 500; }
+    .project-facts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px;
+      max-width: 430px;
+      margin-top: 48px;
+      padding-top: 19px;
+      border-top: 1px solid var(--line);
+    }
+    .fact-label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .fact-value { font: 600 14px var(--display); }
+    .showcase { min-width: 0; animation: rise-in 750ms 100ms both; }
+    .scene-frame {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1.14 / 1;
+      background: #b6c1bd;
+    }
+    .scene-frame::after {
+      position: absolute;
+      inset: 48% 0 0;
+      background: linear-gradient(transparent, rgba(13, 26, 23, 0.56));
+      content: "";
+      pointer-events: none;
+    }
+    #scene-image {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      animation: image-in 500ms ease both;
+    }
+    .scene-stamp {
+      position: absolute;
+      z-index: 1;
+      top: 17px;
+      left: 17px;
+      padding: 9px 11px;
+      background: var(--lime);
+      color: var(--ink);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+    .scene-caption {
+      position: absolute;
+      z-index: 1;
+      right: 23px;
+      bottom: 21px;
+      left: 23px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      color: white;
+    }
+    .scene-caption strong { display: block; font: 600 20px var(--display); }
+    .scene-caption span { font-size: 11px; opacity: 0.85; }
+    .gallery-controls {
+      display: grid;
+      grid-template-columns: auto minmax(100px, 1fr) auto;
+      align-items: center;
+      gap: 16px;
+      padding-top: 18px;
+    }
+    #loading, #image-label { color: var(--muted); font-size: 11px; }
+    #image-label { min-width: 84px; text-align: right; }
     #background-slider {
       width: 100%;
+      height: 3px;
       appearance: none;
-      height: 8px;
-      border-radius: 10px;
-      outline: none;
+      background: var(--line);
       cursor: pointer;
-      background: linear-gradient(
-        to right,
-        #ffffff 0%,
-        #ffffff 0%,
-        rgba(255, 255, 255, 0.25) 0%,
-        rgba(255, 255, 255, 0.25) 100%
-      );
     }
-
     #background-slider::-webkit-slider-thumb {
+      width: 13px;
+      height: 13px;
       appearance: none;
-      width: 23px;
-      height: 23px;
+      border: 2px solid var(--paper);
       border-radius: 50%;
-      background: white;
-      border: 3px solid #555;
-      cursor: pointer;
-      transition: transform 0.2s ease;
+      background: var(--forest);
+      box-shadow: 0 0 0 1px var(--forest);
     }
-
-    #background-slider::-webkit-slider-thumb:hover {
-      transform: scale(1.2);
-    }
-
     #background-slider::-moz-range-thumb {
-      width: 19px;
-      height: 19px;
+      width: 9px;
+      height: 9px;
+      border: 2px solid var(--paper);
       border-radius: 50%;
-      background: white;
-      border: 3px solid #555;
-      cursor: pointer;
+      background: var(--forest);
+      box-shadow: 0 0 0 1px var(--forest);
     }
-
-    #image-label {
-      margin-top: 12px;
-      font-size: 15px;
-      opacity: 0.9;
+    #background-slider:focus-visible { outline: 2px solid var(--orange); outline-offset: 7px; }
+    .about-band { background: var(--forest); color: var(--paper); }
+    .about-inner {
+      min-height: 220px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 60px;
+      padding: 43px 0;
     }
-
-    #loading {
-      font-size: 14px;
-      opacity: 0.75;
+    .about-band .section-kicker { margin-bottom: 13px; color: var(--lime); }
+    .about-band h2 {
+      max-width: 500px;
+      margin: 0;
+      font: 600 34px/1.12 var(--display);
+    }
+    .about-copy { max-width: 460px; color: #d0d9d2; font-size: 14px; line-height: 1.8; }
+    .about-copy p { margin-bottom: 0; }
+    .site-footer { min-height: 82px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .footer-note { margin: 0; color: var(--muted); font-size: 11px; }
+    .footer-link { color: var(--ink); font-size: 12px; font-weight: 700; text-decoration: none; }
+    @keyframes rise-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes image-in { from { opacity: 0.35; transform: scale(1.015); } to { opacity: 1; transform: scale(1); } }
+    @media (max-width: 900px) {
+      .hero { min-height: auto; grid-template-columns: 1fr 1fr; gap: 34px; padding: 58px 0 64px; }
+      h1 { font-size: 58px; }
+      .header-right { gap: 20px; }
+      .nav-links { gap: 16px; }
+    }
+    @media (max-width: 650px) {
+      .wrap { width: min(100% - 40px, 500px); }
+      .site-header { height: 70px; }
+      .header-right { gap: 0; }
+      .nav-links, .availability { display: none; }
+      .hero { grid-template-columns: 1fr; gap: 38px; padding: 47px 0 52px; }
+      .eyebrow { margin-bottom: 17px; }
+      .role-tag { margin-bottom: 18px; }
+      h1 { max-width: 420px; margin-bottom: 17px; font-size: 52px; }
+      .intro { margin-bottom: 22px; font-size: 15px; }
+      .project-facts { margin-top: 30px; }
+      .scene-frame { aspect-ratio: 1.12 / 1; }
+      .about-inner { grid-template-columns: 1fr; gap: 20px; padding: 39px 0; }
+      .about-band h2 { font-size: 29px; }
+      .site-footer { min-height: 72px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     }
   </style>
 </head>
 
 <body>
-  <div class="text-box">
-    <h1>Town builds</h1>
-
-    <p>
-      Slide the slider below to change the background image. Contact me on discord if you want me to help you with your town builds. My discord is <strong>Rep_sov</strong>.
-    </p>
-
-    <div class="slider-area">
-      <div id="loading">Loading images...</div>
-
-      <input
-        type="range"
-        id="background-slider"
-        min="0"
-        max="0"
-        value="0"
-        step="1"
-        hidden
-      >
-
-      <div id="image-label"></div>
+  <header class="site-header wrap">
+    <a class="brand" href="#top" aria-label="Repsov home">
+      <span class="brand-mark">R.</span>
+      <span>repsov</span>
+    </a>
+    <div class="header-right">
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#work">Builds</a>
+        <a href="#about">About</a>
+      </nav>
+      <span class="availability">Building on Roblox</span>
     </div>
-  </div>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Independent creator / Roblox</p>
+        <div class="role-tag"><span></span> Developer &amp; owner</div>
+        <h1 id="hero-title">Worlds built to <em>be played.</em></h1>
+        <p class="intro">I'm Repsov, the developer and owner of Wiring test. I build places to explore, experiment in, and make your own.</p>
+        <div class="actions">
+          <a class="button button-primary" href="https://www.roblox.com/games/125978333607810/Wiring-test" target="_blank" rel="noopener noreferrer">
+            Join Wiring test <span class="button-arrow" aria-hidden="true">&#8599;</span>
+          </a>
+          <a class="button button-secondary" href="#work">Explore the builds</a>
+        </div>
+        <div class="project-facts">
+          <div>
+            <span class="fact-label">Current project</span>
+            <span class="fact-value">Wiring test</span>
+          </div>
+          <div>
+            <span class="fact-label">Find me</span>
+            <span class="fact-value">Rep_sov</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase" id="work">
+        <div class="scene-frame">
+          <img id="scene-image" src="./Background2.png" alt="A view from one of Repsov's Roblox builds">
+          <span class="scene-stamp">In-game snapshots</span>
+          <div class="scene-caption">
+            <strong>Made in Roblox</strong>
+            <span id="image-label">Loading...</span>
+          </div>
+        </div>
+        <div class="gallery-controls">
+          <span id="loading">Loading builds...</span>
+          <input type="range" id="background-slider" min="0" max="0" value="0" step="1" aria-label="Browse build screenshots" hidden>
+          <span id="image-count" aria-live="polite"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-band" id="about">
+      <div class="about-inner wrap">
+        <div>
+          <p class="section-kicker">The person behind the place</p>
+          <h2>Built with curiosity. Owned by me.</h2>
+        </div>
+        <div class="about-copy">
+          <p>Wiring test is my Roblox project, built and run by me. Take a look around, try it out, and see what you can make happen.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer wrap">
+    <p class="footer-note">Repsov / Roblox creator</p>
+    <a class="footer-link" href="https://www.roblox.com/games/125978333607810/Wiring-test" target="_blank" rel="noopener noreferrer">Play Wiring test &#8599;</a>
+  </footer>
 
   <script>
     const slider = document.getElementById("background-slider");
+    const imageElement = document.getElementById("scene-image");
     const label = document.getElementById("image-label");
     const loading = document.getElementById("loading");
+    const imageCount = document.getElementById("image-count");
 
     const possibleImages = [];
 
-    // Creates Background2.png through Background10.png
+    // Checks the local build screenshots without assuming every numbered file exists.
     for (let number = 2; number <= 10; number++) {
       possibleImages.push(`Background${number}.png`);
     }
@@ -197,23 +432,21 @@
       slider.style.background = `
         linear-gradient(
           to right,
-          white 0%,
-          white ${percentage}%,
-          rgba(255, 255, 255, 0.25) ${percentage}%,
-          rgba(255, 255, 255, 0.25) 100%
+          #203d34 0%,
+          #203d34 ${percentage}%,
+          #d7d9ce ${percentage}%,
+          #d7d9ce 100%
         )
       `;
     }
 
     function changeBackground(image) {
-      // Fade the current background out briefly
-      document.body.style.opacity = "0.75";
-
-      setTimeout(() => {
-        document.body.style.backgroundImage = `url("${image.source}")`;
-        label.textContent = image.name.replace(".png", "");
-        document.body.style.opacity = "1";
-      }, 180);
+      imageElement.src = image.source;
+      imageElement.alt = `A view from Repsov's Roblox build, ${image.name.replace(".png", "")}`;
+      imageElement.style.animation = "none";
+      void imageElement.offsetWidth;
+      imageElement.style.animation = "image-in 500ms ease both";
+      label.textContent = image.name.replace(".png", "");
     }
 
     async function startSlider() {
@@ -222,16 +455,18 @@
       loading.remove();
 
       if (images.length === 0) {
-        label.textContent = "No background images found";
+        loading.textContent = "No build screenshots found";
+        label.textContent = "Wiring test";
         return;
       }
 
       slider.hidden = false;
+      loading.remove();
       slider.min = 0;
       slider.max = images.length - 1;
       slider.value = 0;
+      imageCount.textContent = `01 / ${String(images.length).padStart(2, "0")}`;
 
-      // The first image is already loaded and ready
       changeBackground(images[0]);
       updateSliderFill();
 
@@ -239,6 +474,7 @@
         const selectedImage = images[slider.value];
 
         changeBackground(selectedImage);
+        imageCount.textContent = `${String(Number(slider.value) + 1).padStart(2, "0")} / ${String(images.length).padStart(2, "0")}`;
         updateSliderFill();
       });
     }
