@@ -156,11 +156,14 @@
     h1, h2, p { margin-top: 0; }
     h1 {
       max-width: 530px;
+      min-height: 2em;
       margin-bottom: 22px;
       font: 700 76px/0.98 var(--display);
       letter-spacing: 0;
     }
     h1 em { color: var(--forest); font-style: normal; }
+    #quote-lead, #quote-accent { display: block; }
+    #quote-accent { animation: quote-in 420ms ease both; }
     .intro {
       max-width: 440px;
       margin-bottom: 30px;
@@ -289,12 +292,38 @@
     }
     #background-slider:focus-visible { outline: 2px solid var(--orange); outline-offset: 7px; }
     .about-band {
+      position: relative;
+      overflow: hidden;
       background-color: var(--forest);
       background-image: repeating-linear-gradient(115deg, transparent 0 42px, rgba(255, 255, 255, 0.025) 43px 44px);
       color: var(--paper);
       transition: background-color 360ms ease;
     }
+    .vine-decoration {
+      position: absolute;
+      top: -12%;
+      right: 3%;
+      width: 126px;
+      height: 125%;
+      opacity: 0.35;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 8px 16px at 18px 19px, var(--lime) 92%, transparent 100%) 0 0 / 120px 54px repeat-y,
+        radial-gradient(ellipse 8px 16px at 101px 45px, var(--lime) 92%, transparent 100%) 0 0 / 120px 54px repeat-y;
+    }
+    .vine-decoration::before {
+      position: absolute;
+      top: 0;
+      left: 61px;
+      height: 100%;
+      border-left: 2px solid var(--lime);
+      border-radius: 50%;
+      content: "";
+      transform: rotate(9deg);
+    }
     .about-inner {
+      position: relative;
+      z-index: 1;
       min-height: 220px;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -343,9 +372,66 @@
       gap: 24px;
       margin-bottom: 58px;
     }
+    .credit-person {
+      width: 100%;
+      min-height: 126px;
+      padding: 14px 0;
+      border: 0;
+      border-top: 2px solid var(--member-accent, var(--forest));
+      background: transparent;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      transition: transform 180ms ease, border-color 180ms ease;
+    }
+    .credit-person:hover { transform: translateY(-3px); }
+    .credit-person:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
+    .credit-person[data-member="ano"] { --member-accent: #4b7752; }
+    .credit-person[data-member="glaive"] { --member-accent: #b8754e; }
+    .credit-person[data-member="tavryel"] { --member-accent: #4a7c7c; }
+    .credit-person[data-member="bubu"] { --member-accent: #90784a; }
     .credit-name { display: block; margin-bottom: 7px; font: 600 17px var(--display); }
     .credit-handle, .credit-role { display: block; color: var(--muted); font-size: 12px; line-height: 1.6; }
     .credit-role { margin-top: 5px; color: var(--ink); font-weight: 600; }
+    .credit-prompt { display: block; margin-top: 10px; color: var(--forest); font-size: 10px; font-weight: 700; }
+    .member-dialog {
+      width: min(480px, calc(100% - 32px));
+      padding: 30px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      color: var(--ink);
+    }
+    .member-dialog::backdrop { background: rgba(18, 33, 28, 0.62); backdrop-filter: blur(3px); }
+    .member-dialog[data-member="ano"] { --member-accent: #4b7752; }
+    .member-dialog[data-member="glaive"] { --member-accent: #b8754e; }
+    .member-dialog[data-member="tavryel"] { --member-accent: #4a7c7c; }
+    .member-dialog[data-member="bubu"] { --member-accent: #90784a; }
+    .dialog-topline { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+    .member-mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 22px;
+      background: var(--member-accent);
+      color: white;
+      font: 700 13px var(--display);
+    }
+    .member-dialog h2 { margin-bottom: 5px; font: 600 30px/1.1 var(--display); }
+    .member-dialog .credit-handle { margin-bottom: 20px; }
+    .member-dialog .member-role { margin-bottom: 12px; color: var(--member-accent); font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    .member-dialog .member-detail { color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .member-dialog .member-signature { margin-bottom: 0; padding-top: 14px; border-top: 1px solid var(--line); font: 600 14px/1.5 var(--display); }
+    .dialog-close {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--ink);
+      font: 500 20px var(--body);
+      cursor: pointer;
+    }
+    .dialog-close:hover { background: var(--line); }
     .command-list {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -367,9 +453,11 @@
     .footer-link { color: var(--ink); font-size: 12px; font-weight: 700; text-decoration: none; }
     @keyframes rise-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes image-in { from { opacity: 0.35; transform: scale(1.015); } to { opacity: 1; transform: scale(1); } }
+    @keyframes quote-in { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
     @media (max-width: 900px) {
       .hero { min-height: auto; grid-template-columns: 1fr 1fr; gap: 34px; padding: 58px 0 64px; }
       h1 { font-size: 58px; }
+      .vine-decoration { right: -24px; opacity: 0.2; }
       .header-right { gap: 20px; }
       .nav-links { gap: 16px; }
     }
@@ -382,6 +470,7 @@
       .eyebrow { margin-bottom: 17px; }
       .role-tag { margin-bottom: 18px; }
       h1 { max-width: 420px; margin-bottom: 17px; font-size: 52px; }
+      h1 { min-height: 2.15em; }
       .intro { margin-bottom: 22px; font-size: 15px; }
       .project-facts { margin-top: 30px; }
       .scene-frame { aspect-ratio: 1.12 / 1; }
@@ -390,6 +479,8 @@
       .reference-section { padding: 48px 0 54px; }
       .community-row { align-items: flex-start; flex-direction: column; margin-bottom: 42px; }
       .credits-grid { grid-template-columns: 1fr 1fr; row-gap: 22px; margin-bottom: 44px; }
+      .credit-person { min-height: 140px; }
+      .member-dialog { padding: 24px; }
       .command-list { grid-template-columns: 1fr 1fr; }
       .community-row h2, .reference-heading { font-size: 26px; }
       .site-footer { min-height: 72px; }
@@ -422,7 +513,7 @@
       <div class="hero-copy">
         <p class="eyebrow">A Roblox development team</p>
         <div class="role-tag"><span></span> The Wiring test crew</div>
-        <h1 id="hero-title">Good wires. <em>Questionable sleep.</em></h1>
+        <h1 id="hero-title"><span id="quote-lead">Good wires.</span><em id="quote-accent">Questionable sleep.</em></h1>
         <p class="intro">We're the team behind Wiring test: developers, an animator, and a VFX artist building a place to experiment, create, and occasionally ask who moved that part.</p>
         <div class="actions">
           <a class="button button-primary" href="https://www.roblox.com/games/125978333607810/Wiring-test" target="_blank" rel="noopener noreferrer">
@@ -462,6 +553,7 @@
     </section>
 
     <section class="about-band" id="about">
+      <span class="vine-decoration" aria-hidden="true"></span>
       <div class="about-inner wrap">
         <div>
           <p class="section-kicker">The crew behind the place</p>
@@ -488,26 +580,30 @@
         <p class="section-kicker">The people behind the page</p>
         <h2 class="reference-heading">Meet the team</h2>
         <div class="credits-grid">
-          <div>
+          <button type="button" class="credit-person" data-member="ano" aria-haspopup="dialog" aria-label="View Ano55467's profile">
             <span class="credit-name">Ano55467</span>
             <span class="credit-handle">@Ano55467 @rep_sov</span>
             <span class="credit-role">Developer &amp; owner (made most of the game)</span>
-          </div>
-          <div>
+            <span class="credit-prompt">Open field notes &#8599;</span>
+          </button>
+          <button type="button" class="credit-person" data-member="glaive" aria-haspopup="dialog" aria-label="View Glaive's profile">
             <span class="credit-name">Glaive</span>
             <span class="credit-handle">@G1aaive</span>
             <span class="credit-role">Animator</span>
-          </div>
-          <div>
+            <span class="credit-prompt">Open field notes &#8599;</span>
+          </button>
+          <button type="button" class="credit-person" data-member="tavryel" aria-haspopup="dialog" aria-label="View Tavryel's profile">
             <span class="credit-name">Tavryel</span>
             <span class="credit-handle">@Kaninbibi</span>
             <span class="credit-role">VFX artist</span>
-          </div>
-          <div>
+            <span class="credit-prompt">Open field notes &#8599;</span>
+          </button>
+          <button type="button" class="credit-person" data-member="bubu" aria-haspopup="dialog" aria-label="View bubu's profile">
             <span class="credit-name">bubu</span>
             <span class="credit-handle">@14bcool</span>
             <span class="credit-role">Developer</span>
-          </div>
+            <span class="credit-prompt">Open field notes &#8599;</span>
+          </button>
         </div>
       </div>
 
@@ -538,6 +634,20 @@
     </section>
   </main>
 
+  <dialog class="member-dialog" id="member-dialog" aria-labelledby="member-dialog-name">
+    <div class="dialog-topline">
+      <div>
+        <span class="member-mark" id="member-mark" aria-hidden="true"></span>
+        <h2 id="member-dialog-name"></h2>
+        <span class="credit-handle" id="member-dialog-handle"></span>
+      </div>
+      <button class="dialog-close" id="dialog-close" type="button" aria-label="Close profile">&times;</button>
+    </div>
+    <p class="member-role" id="member-dialog-role"></p>
+    <p class="member-detail" id="member-dialog-detail"></p>
+    <p class="member-signature" id="member-dialog-signature"></p>
+  </dialog>
+
   <footer class="site-footer wrap">
     <p class="footer-note">Built by the Wiring test development team</p>
     <a class="footer-link" href="https://www.roblox.com/games/125978333607810/Wiring-test" target="_blank" rel="noopener noreferrer">Play Wiring test &#8599;</a>
@@ -550,6 +660,46 @@
     const loading = document.getElementById("loading");
     const imageCount = document.getElementById("image-count");
     const fieldNote = document.getElementById("field-note");
+    const quoteLead = document.getElementById("quote-lead");
+    const quoteAccent = document.getElementById("quote-accent");
+    const memberDialog = document.getElementById("member-dialog");
+    const teamProfiles = {
+      ano: {
+        name: "Ano55467",
+        handle: "@Ano55467 @rep_sov",
+        role: "Developer & owner",
+        detail: "Made most of Wiring test and keeps the big picture moving, from game systems to all the little pieces that somehow become a whole game.",
+        signature: "Workshop rumor: can find a missing part faster than the game can replicate it."
+      },
+      glaive: {
+        name: "Glaive",
+        handle: "@G1aaive",
+        role: "Animator",
+        detail: "Brings the movement and timing that make characters and moments feel alive instead of like they are waiting for the bus.",
+        signature: "Specialty: making stillness look suspiciously intentional."
+      },
+      tavryel: {
+        name: "Tavryel",
+        handle: "@Kaninbibi",
+        role: "VFX artist",
+        detail: "Adds the visual effects that give Wiring test its sparks, atmosphere, and those little moments that make you look twice.",
+        signature: "Field report: if it glows, someone cared about the glow."
+      },
+      bubu: {
+        name: "bubu",
+        handle: "@14bcool",
+        role: "Developer",
+        detail: "Builds and improves the game alongside the rest of the crew, turning ideas into more things players can actually do.",
+        signature: "Debugging motto: it worked five minutes ago."
+      }
+    };
+    const teamQuotes = [
+      { lead: "Good wires.", accent: "Questionable sleep." },
+      { lead: "Four brains.", accent: "One missing part." },
+      { lead: "We fixed it.", accent: "Probably." },
+      { lead: "A little chaos.", accent: "Mostly intentional." },
+      { lead: "Built by a team.", accent: "Blamed on the squirrels." }
+    ];
     const sceneMoods = [
       { theme: "meadow", label: "Meadow", note: "Field note: the forest is not responsible for lost building parts." },
       { theme: "creek", label: "Creekside", note: "Creek report: one wire was last seen heading downstream." },
@@ -558,6 +708,38 @@
     ];
 
     const possibleImages = [];
+
+    document.querySelectorAll(".credit-person").forEach((button, index) => {
+      button.addEventListener("click", () => {
+        const profile = teamProfiles[button.dataset.member];
+        document.getElementById("member-mark").textContent = String(index + 1).padStart(2, "0");
+        document.getElementById("member-dialog-name").textContent = profile.name;
+        document.getElementById("member-dialog-handle").textContent = profile.handle;
+        document.getElementById("member-dialog-role").textContent = profile.role;
+        document.getElementById("member-dialog-detail").textContent = profile.detail;
+        document.getElementById("member-dialog-signature").textContent = profile.signature;
+        memberDialog.dataset.member = button.dataset.member;
+        memberDialog.showModal();
+      });
+    });
+
+    document.getElementById("dialog-close").addEventListener("click", () => memberDialog.close());
+
+    memberDialog.addEventListener("click", (event) => {
+      if (event.target === memberDialog) memberDialog.close();
+    });
+
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      let quoteIndex = 0;
+      window.setInterval(() => {
+        quoteIndex = (quoteIndex + 1) % teamQuotes.length;
+        quoteLead.textContent = teamQuotes[quoteIndex].lead;
+        quoteAccent.textContent = teamQuotes[quoteIndex].accent;
+        quoteAccent.style.animation = "none";
+        void quoteAccent.offsetWidth;
+        quoteAccent.style.animation = "quote-in 420ms ease both";
+      }, 5200);
+    }
 
     // Checks the local build screenshots without assuming every numbered file exists.
     for (let number = 2; number <= 10; number++) {
