@@ -36,6 +36,7 @@
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
+      position: relative;
       margin: 0;
       min-width: 320px;
       background: var(--paper);
@@ -71,9 +72,24 @@
       --orange: #bf654f;
       --forest: #694744;
     }
+    .page-vines {
+      position: fixed;
+      z-index: 0;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      overflow: visible;
+      pointer-events: none;
+      opacity: 1;
+      transform: translateZ(0);
+    }
     a { color: inherit; }
     .wrap { width: min(1220px, calc(100% - 64px)); margin: 0 auto; }
     .site-header {
+      position: relative;
+      z-index: 2;
       height: 86px;
       display: flex;
       align-items: center;
@@ -130,6 +146,7 @@
       gap: 68px;
       padding: 66px 0 76px;
     }
+    .hero-copy, .showcase { position: relative; z-index: 2; }
     .hero-copy { animation: rise-in 650ms both; }
     .eyebrow, .section-kicker {
       margin: 0 0 22px;
@@ -299,31 +316,9 @@
       color: var(--paper);
       transition: background-color 360ms ease;
     }
-    .vine-decoration {
-      position: absolute;
-      top: -12%;
-      right: 3%;
-      width: 126px;
-      height: 125%;
-      opacity: 0.35;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse 8px 16px at 18px 19px, var(--lime) 92%, transparent 100%) 0 0 / 120px 54px repeat-y,
-        radial-gradient(ellipse 8px 16px at 101px 45px, var(--lime) 92%, transparent 100%) 0 0 / 120px 54px repeat-y;
-    }
-    .vine-decoration::before {
-      position: absolute;
-      top: 0;
-      left: 61px;
-      height: 100%;
-      border-left: 2px solid var(--lime);
-      border-radius: 50%;
-      content: "";
-      transform: rotate(9deg);
-    }
     .about-inner {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       min-height: 220px;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -448,6 +443,7 @@
       font: 600 12px var(--body);
       overflow-wrap: anywhere;
     }
+    .reference-section, .site-footer { position: relative; z-index: 2; }
     .site-footer { min-height: 82px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
     .footer-note { margin: 0; color: var(--muted); font-size: 11px; }
     .footer-link { color: var(--ink); font-size: 12px; font-weight: 700; text-decoration: none; }
@@ -457,7 +453,6 @@
     @media (max-width: 900px) {
       .hero { min-height: auto; grid-template-columns: 1fr 1fr; gap: 34px; padding: 58px 0 64px; }
       h1 { font-size: 58px; }
-      .vine-decoration { right: -24px; opacity: 0.2; }
       .header-right { gap: 20px; }
       .nav-links { gap: 16px; }
     }
@@ -553,7 +548,6 @@
     </section>
 
     <section class="about-band" id="about">
-      <span class="vine-decoration" aria-hidden="true"></span>
       <div class="about-inner wrap">
         <div>
           <p class="section-kicker">The crew behind the place</p>
@@ -700,6 +694,12 @@
       { lead: "A little chaos.", accent: "Mostly intentional." },
       { lead: "Built by a team.", accent: "Blamed on the squirrels." }
     ];
+    const vineNamespace = "http://www.w3.org/2000/svg";
+    let vineSvg;
+    let vineStems = [];
+    let vineLeaves = [];
+    let vineTendrils = [];
+    let vineFramePending = false;
     const sceneMoods = [
       { theme: "meadow", label: "Meadow", note: "Field note: the forest is not responsible for lost building parts." },
       { theme: "creek", label: "Creekside", note: "Creek report: one wire was last seen heading downstream." },
@@ -708,6 +708,153 @@
     ];
 
     const possibleImages = [];
+
+    function makeVineRandom(seed) {
+      let state = seed;
+      return () => {
+        state = (state * 1664525 + 1013904223) >>> 0;
+        return state / 4294967296;
+      };
+    }
+
+    function makeSvgElement(tagName, attributes = {}) {
+      const element = document.createElementNS(vineNamespace, tagName);
+      for (const [name, value] of Object.entries(attributes)) element.setAttribute(name, value);
+      return element;
+    }
+
+    function buildVine(side, pageWidth, pageHeight, seed) {
+      const random = makeVineRandom(seed);
+      const edgeInset = Math.min(118, Math.max(23, pageWidth * 0.045));
+      const centerX = side === "left" ? edgeInset : pageWidth - edgeInset;
+      const startY = -30;
+      const segmentLength = 180;
+      const segmentCount = Math.ceil((pageHeight + 60) / segmentLength);
+      const points = [{ x: centerX, y: startY }];
+      let pathData = `M ${centerX} ${startY}`;
+
+      for (let segment = 0; segment < segmentCount; segment++) {
+        const previous = points[points.length - 1];
+        const nextY = previous.y + segmentLength;
+        const nextX = Math.max(edgeInset - 20, Math.min(pageWidth - edgeInset + 20, centerX + (random() - 0.5) * 58));
+        const firstControlX = previous.x + (nextX - previous.x) * 0.42 + (random() - 0.5) * 34;
+        const secondControlX = nextX + (previous.x - nextX) * 0.18 + (random() - 0.5) * 38;
+        pathData += ` C ${firstControlX} ${previous.y + 58}, ${secondControlX} ${previous.y + 126}, ${nextX} ${nextY}`;
+        points.push({ x: nextX, y: nextY });
+      }
+
+      const stem = makeSvgElement("path", {
+        d: pathData,
+        fill: "none",
+        stroke: side === "left" ? "#456346" : "#4d6c50",
+        "stroke-width": "3.4",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round",
+        "vector-effect": "non-scaling-stroke",
+        opacity: "0.86"
+      });
+      vineSvg.appendChild(stem);
+      const stemLength = stem.getTotalLength();
+      stem.style.strokeDasharray = stemLength;
+      stem.style.strokeDashoffset = stemLength;
+      vineStems.push({ element: stem, length: stemLength });
+
+      for (let distance = 24, leafIndex = 0; distance < stemLength; distance += 43, leafIndex++) {
+        const point = stem.getPointAtLength(distance);
+        const previous = stem.getPointAtLength(Math.max(0, distance - 1));
+        const next = stem.getPointAtLength(Math.min(stemLength, distance + 1));
+        const tangent = Math.atan2(next.y - previous.y, next.x - previous.x) * 180 / Math.PI;
+        const sideAngle = side === "left"
+          ? (leafIndex % 2 === 0 ? -34 : 146)
+          : (leafIndex % 2 === 0 ? 214 : 34);
+        const leaf = makeSvgElement("g", {
+          transform: `translate(${point.x} ${point.y}) rotate(${tangent + sideAngle})`,
+          opacity: "0"
+        });
+        leaf.dataset.reveal = String(distance / stemLength);
+        const leafColor = leafIndex % 3 === 0 ? "#829c5d" : "#607d4f";
+        leaf.appendChild(makeSvgElement("path", {
+          d: "M 0 0 C 7 -10, 22 -13, 35 -5 C 26 5, 11 8, 0 0 Z",
+          fill: leafColor,
+          stroke: "#3f5c40",
+          "stroke-width": "0.8"
+        }));
+        leaf.appendChild(makeSvgElement("path", {
+          d: "M 2 0 Q 18 -6, 32 -5",
+          fill: "none",
+          stroke: "#c2cf91",
+          "stroke-width": "0.8",
+          opacity: "0.8"
+        }));
+        vineSvg.appendChild(leaf);
+        vineLeaves.push({ element: leaf, reveal: distance / stemLength });
+
+        if (leafIndex % 6 === 2) {
+          const direction = side === "left" ? 1 : -1;
+          const tendril = makeSvgElement("path", {
+            d: `M ${point.x} ${point.y} C ${point.x + direction * 24} ${point.y - 20}, ${point.x + direction * 47} ${point.y - 6}, ${point.x + direction * 34} ${point.y - 30} C ${point.x + direction * 22} ${point.y - 49}, ${point.x + direction * 58} ${point.y - 54}, ${point.x + direction * 48} ${point.y - 71}`,
+            fill: "none",
+            stroke: "#6e8958",
+            "stroke-width": "1.5",
+            "stroke-linecap": "round",
+            opacity: "0"
+          });
+          tendril.dataset.reveal = String(distance / stemLength);
+          vineSvg.appendChild(tendril);
+          vineTendrils.push({ element: tendril, reveal: distance / stemLength });
+        }
+      }
+    }
+
+    function updateVineGrowth() {
+      const pageHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, window.innerHeight);
+      const visibleProgress = Math.min(1, (window.scrollY + window.innerHeight) / pageHeight);
+
+      for (const stem of vineStems) {
+        stem.element.style.strokeDashoffset = stem.length * (1 - visibleProgress);
+      }
+      for (const leaf of vineLeaves) {
+        leaf.element.style.opacity = Math.max(0, Math.min(1, (visibleProgress - leaf.reveal) * 45));
+      }
+      for (const tendril of vineTendrils) {
+        tendril.element.style.opacity = Math.max(0, Math.min(0.82, (visibleProgress - tendril.reveal) * 45));
+      }
+      vineFramePending = false;
+    }
+
+    function scheduleVineGrowth() {
+      if (vineFramePending) return;
+      vineFramePending = true;
+      window.requestAnimationFrame(updateVineGrowth);
+    }
+
+    function renderPageVines() {
+      const pageWidth = Math.max(document.documentElement.scrollWidth, window.innerWidth || 1200);
+      const pageHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, window.innerHeight * 1.4);
+      vineSvg = makeSvgElement("svg", {
+        class: "page-vines",
+        "aria-hidden": "true",
+        focusable: "false",
+        viewBox: `0 0 ${pageWidth} ${pageHeight}`,
+        preserveAspectRatio: "xMidYMin slice"
+      });
+      vineSvg.style.width = `${pageWidth}px`;
+      vineSvg.style.height = `${pageHeight}px`;
+      vineStems = [];
+      vineLeaves = [];
+      vineTendrils = [];
+      buildVine("left", pageWidth, pageHeight, 431);
+      buildVine("right", pageWidth, pageHeight, 917);
+
+      const existingVines = document.querySelector(".page-vines");
+      if (existingVines) existingVines.remove();
+      document.body.insertBefore(vineSvg, document.body.firstChild);
+      updateVineGrowth();
+    }
+
+    window.addEventListener("scroll", scheduleVineGrowth, { passive: true });
+    window.addEventListener("resize", renderPageVines);
+    renderPageVines();
 
     document.querySelectorAll(".credit-person").forEach((button, index) => {
       button.addEventListener("click", () => {
