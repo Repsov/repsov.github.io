@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://repsov.github.io/">
-  <meta property="og:title" content="Repsov | Roblox Developer">
-  <meta property="og:description" content="Developer and owner of Wiring test on Roblox.">
+  <meta property="og:title" content="Wiring test | Development Team">
+  <meta property="og:description" content="Meet the team behind Wiring test on Roblox.">
   <meta property="og:image" content="https://repsov.github.io/background.png">
   <meta property="og:site_name" content="Repsov">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Repsov | Roblox Developer">
-  <meta name="twitter:description" content="Developer and owner of Wiring test on Roblox.">
+  <meta name="twitter:title" content="Wiring test | Development Team">
+  <meta name="twitter:description" content="Meet the team behind Wiring test on Roblox.">
   <meta name="twitter:image" content="https://repsov.github.io/background.png">
   <meta name="theme-color" content="#f2f0e8">
-  <title>Repsov | Roblox Developer</title>
+  <title>Wiring test | Development Team</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -42,6 +42,34 @@
       color: var(--ink);
       font-family: var(--body);
       -webkit-font-smoothing: antialiased;
+      transition: background-color 360ms ease, color 360ms ease;
+    }
+    body[data-theme="creek"] {
+      --paper: #e8f2ef;
+      --ink: #183633;
+      --muted: #58716c;
+      --line: #c8dcd5;
+      --lime: #b6dfc3;
+      --orange: #d77852;
+      --forest: #20534b;
+    }
+    body[data-theme="canopy"] {
+      --paper: #edf1df;
+      --ink: #273629;
+      --muted: #62705a;
+      --line: #d2dcc5;
+      --lime: #c9df8b;
+      --orange: #b86e4a;
+      --forest: #36583a;
+    }
+    body[data-theme="wildflower"] {
+      --paper: #f5ece7;
+      --ink: #3a2929;
+      --muted: #78635e;
+      --line: #e2d0c8;
+      --lime: #d4df9c;
+      --orange: #bf654f;
+      --forest: #694744;
     }
     a { color: inherit; }
     .wrap { width: min(1220px, calc(100% - 64px)); margin: 0 auto; }
@@ -155,7 +183,7 @@
     }
     .button:hover { transform: translateY(-2px); }
     .button-primary { background: var(--lime); color: var(--ink); }
-    .button-primary:hover { background: #cce954; }
+    .button-primary:hover { filter: brightness(0.96); }
     .button-secondary { border: 1px solid var(--line); color: var(--ink); }
     .button-secondary:hover { background: #e8e8dc; }
     .button-arrow { font-size: 17px; font-weight: 500; }
@@ -260,7 +288,12 @@
       box-shadow: 0 0 0 1px var(--forest);
     }
     #background-slider:focus-visible { outline: 2px solid var(--orange); outline-offset: 7px; }
-    .about-band { background: var(--forest); color: var(--paper); }
+    .about-band {
+      background-color: var(--forest);
+      background-image: repeating-linear-gradient(115deg, transparent 0 42px, rgba(255, 255, 255, 0.025) 43px 44px);
+      color: var(--paper);
+      transition: background-color 360ms ease;
+    }
     .about-inner {
       min-height: 220px;
       display: grid;
@@ -277,6 +310,15 @@
     }
     .about-copy { max-width: 460px; color: #d0d9d2; font-size: 14px; line-height: 1.8; }
     .about-copy p { margin-bottom: 0; }
+    .field-note {
+      margin: 12px 0 0;
+      padding-left: 12px;
+      border-left: 2px solid var(--orange);
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+      transition: color 360ms ease, border-color 360ms ease;
+    }
     .reference-section { padding: 66px 0 72px; border-bottom: 1px solid var(--line); }
     .community-row {
       display: flex;
@@ -378,10 +420,10 @@
   <main id="top">
     <section class="hero wrap" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="eyebrow">Independent creator / Roblox</p>
-        <div class="role-tag"><span></span> Developer &amp; owner</div>
-        <h1 id="hero-title">Worlds built to <em>be played.</em></h1>
-        <p class="intro">I'm Repsov, the developer and owner of Wiring test. I build places to explore, experiment in, and make your own.</p>
+        <p class="eyebrow">A Roblox development team</p>
+        <div class="role-tag"><span></span> The Wiring test crew</div>
+        <h1 id="hero-title">Good wires. <em>Questionable sleep.</em></h1>
+        <p class="intro">We're the team behind Wiring test: developers, an animator, and a VFX artist building a place to experiment, create, and occasionally ask who moved that part.</p>
         <div class="actions">
           <a class="button button-primary" href="https://www.roblox.com/games/125978333607810/Wiring-test" target="_blank" rel="noopener noreferrer">
             Join Wiring test <span class="button-arrow" aria-hidden="true">&#8599;</span>
@@ -391,12 +433,12 @@
         </div>
         <div class="project-facts">
           <div>
-            <span class="fact-label">Current project</span>
+            <span class="fact-label">The project</span>
             <span class="fact-value">Wiring test</span>
           </div>
           <div>
             <span class="fact-label">Find me</span>
-            <span class="fact-value">Rep_sov</span>
+            <span class="fact-value">rep_sov</span>
           </div>
         </div>
       </div>
@@ -415,17 +457,18 @@
           <input type="range" id="background-slider" min="0" max="0" value="0" step="1" aria-label="Browse build screenshots" hidden>
           <span id="image-count" aria-live="polite"></span>
         </div>
+        <p class="field-note" id="field-note" aria-live="polite">Field note: the forest is not responsible for lost building parts.</p>
       </div>
     </section>
 
     <section class="about-band" id="about">
       <div class="about-inner wrap">
         <div>
-          <p class="section-kicker">The person behind the place</p>
-          <h2>Built with curiosity. Owned by me.</h2>
+          <p class="section-kicker">The crew behind the place</p>
+          <h2>Many hands. One suspiciously large toolbox.</h2>
         </div>
         <div class="about-copy">
-          <p>Wiring test is my Roblox project, built and run by me. Take a look around, try it out, and see what you can make happen.</p>
+          <p>Wiring test comes together through development, animation, and visual effects. rep_sov is the account behind this page, but the game is a team effort. Our unofficial motto: if a wire looks fine, try not to touch it.</p>
         </div>
       </div>
     </section>
@@ -442,8 +485,8 @@
       </div>
 
       <div id="credits">
-        <p class="section-kicker">The people behind the game</p>
-        <h2 class="reference-heading">Credits</h2>
+        <p class="section-kicker">The people behind the page</p>
+        <h2 class="reference-heading">Meet the team</h2>
         <div class="credits-grid">
           <div>
             <span class="credit-name">Ano55467</span>
@@ -496,7 +539,7 @@
   </main>
 
   <footer class="site-footer wrap">
-    <p class="footer-note">Repsov / Roblox creator</p>
+    <p class="footer-note">Built by the Wiring test development team</p>
     <a class="footer-link" href="https://www.roblox.com/games/125978333607810/Wiring-test" target="_blank" rel="noopener noreferrer">Play Wiring test &#8599;</a>
   </footer>
 
@@ -506,6 +549,13 @@
     const label = document.getElementById("image-label");
     const loading = document.getElementById("loading");
     const imageCount = document.getElementById("image-count");
+    const fieldNote = document.getElementById("field-note");
+    const sceneMoods = [
+      { theme: "meadow", label: "Meadow", note: "Field note: the forest is not responsible for lost building parts." },
+      { theme: "creek", label: "Creekside", note: "Creek report: one wire was last seen heading downstream." },
+      { theme: "canopy", label: "Canopy", note: "Nature fact: trees are just very patient building projects." },
+      { theme: "wildflower", label: "Wildflower", note: "Wildlife update: the local squirrels still don't have admin." }
+    ];
 
     const possibleImages = [];
 
@@ -547,17 +597,21 @@
       slider.style.background = `
         linear-gradient(
           to right,
-          #203d34 0%,
-          #203d34 ${percentage}%,
-          #d7d9ce ${percentage}%,
-          #d7d9ce 100%
+          var(--forest) 0%,
+          var(--forest) ${percentage}%,
+          var(--line) ${percentage}%,
+          var(--line) 100%
         )
       `;
     }
 
-    function changeBackground(image) {
+    function changeBackground(image, index) {
+      const mood = sceneMoods[index % sceneMoods.length];
+      document.body.dataset.theme = mood.theme;
+      document.querySelector(".scene-stamp").textContent = `${mood.label} / in-game`;
+      fieldNote.textContent = mood.note;
       imageElement.src = image.source;
-      imageElement.alt = `A view from Repsov's Roblox build, ${image.name.replace(".png", "")}`;
+      imageElement.alt = `A view from the Wiring test team's Roblox build, ${image.name.replace(".png", "")}`;
       imageElement.style.animation = "none";
       void imageElement.offsetWidth;
       imageElement.style.animation = "image-in 500ms ease both";
@@ -582,13 +636,13 @@
       slider.value = 0;
       imageCount.textContent = `01 / ${String(images.length).padStart(2, "0")}`;
 
-      changeBackground(images[0]);
+      changeBackground(images[0], 0);
       updateSliderFill();
 
       slider.addEventListener("input", () => {
         const selectedImage = images[slider.value];
 
-        changeBackground(selectedImage);
+        changeBackground(selectedImage, Number(slider.value));
         imageCount.textContent = `${String(Number(slider.value) + 1).padStart(2, "0")} / ${String(images.length).padStart(2, "0")}`;
         updateSliderFill();
       });
