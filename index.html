@@ -72,19 +72,6 @@
       --orange: #bf654f;
       --forest: #694744;
     }
-    .page-vines {
-      position: fixed;
-      z-index: 0;
-      top: 0;
-      left: 0;
-      display: block;
-      width: 100vw;
-      height: 100vh;
-      overflow: visible;
-      pointer-events: none;
-      opacity: 1;
-      transform: translateZ(0);
-    }
     a { color: inherit; }
     .wrap { width: min(1220px, calc(100% - 64px)); margin: 0 auto; }
     .site-header {
@@ -581,14 +568,14 @@
           <h2>Many hands. One suspiciously large toolbox.</h2>
         </div>
         <div class="about-copy">
-          <p>Wiring test is built around the kind of ideas that define many Roblox town and building games: planning layouts, linking systems, testing interactions, and turning a blank space into a functional place. The page reflects the full team behind that process.</p>
+          <p>Wiring test is built around the kind of ideas that define many Roblox building experiences: planning layouts, linking systems, testing interactions, and shaping a simple idea into a playable space. The page reflects the full team behind that process.</p>
         </div>
       </div>
       <div class="wrap">
         <div class="info-grid">
           <article class="info-card">
-            <strong>Town logic</strong>
-            <p>Players often design neighborhoods, utility paths, and public spaces around clear movement and utility needs.</p>
+            <strong>Layout logic</strong>
+            <p>Good build design starts with readable flow, clear spacing, and systems that are easy to understand at a glance.</p>
           </article>
           <article class="info-card">
             <strong>Build flow</strong>
@@ -600,7 +587,7 @@
           </article>
           <article class="info-card">
             <strong>Community vibes</strong>
-            <p>Roblox town and roleplay spaces often mix creator freedom with social building, shared ideas, and experimentation.</p>
+            <p>Creative spaces often mix player ideas, collaboration, and experimentation into a shared kind of energy.</p>
           </article>
         </div>
       </div>
@@ -741,12 +728,6 @@
       { lead: "A little chaos.", accent: "Mostly intentional." },
       { lead: "Built by a team.", accent: "Blamed on the squirrels." }
     ];
-    const vineNamespace = "http://www.w3.org/2000/svg";
-    let vineSvg;
-    let vineStems = [];
-    let vineLeaves = [];
-    let vineTendrils = [];
-    let vineFramePending = false;
     const sceneMoods = [
       { theme: "meadow", label: "Meadow", note: "Field note: the forest is not responsible for lost building parts." },
       { theme: "creek", label: "Creekside", note: "Creek report: one wire was last seen heading downstream." },
@@ -755,160 +736,6 @@
     ];
 
     const possibleImages = [];
-
-    function makeVineRandom(seed) {
-      let state = seed;
-      return () => {
-        state = (state * 1664525 + 1013904223) >>> 0;
-        return state / 4294967296;
-      };
-    }
-
-    function makeSvgElement(tagName, attributes = {}) {
-      const element = document.createElementNS(vineNamespace, tagName);
-      for (const [name, value] of Object.entries(attributes)) element.setAttribute(name, value);
-      return element;
-    }
-
-    function buildVine(side, pageWidth, pageHeight, seed) {
-      const random = makeVineRandom(seed);
-      const edgeInset = Math.min(118, Math.max(23, pageWidth * 0.045));
-      const centerX = side === "left" ? edgeInset : pageWidth - edgeInset;
-      const startY = -30;
-      const segmentLength = 180;
-      const segmentCount = Math.ceil((pageHeight + 60) / segmentLength);
-      const points = [{ x: centerX, y: startY }];
-      let pathData = `M ${centerX} ${startY}`;
-
-      for (let segment = 0; segment < segmentCount; segment++) {
-        const previous = points[points.length - 1];
-        const nextY = previous.y + segmentLength;
-        const nextX = Math.max(edgeInset - 20, Math.min(pageWidth - edgeInset + 20, centerX + (random() - 0.5) * 58));
-        const firstControlX = previous.x + (nextX - previous.x) * 0.42 + (random() - 0.5) * 34;
-        const secondControlX = nextX + (previous.x - nextX) * 0.18 + (random() - 0.5) * 38;
-        pathData += ` C ${firstControlX} ${previous.y + 58}, ${secondControlX} ${previous.y + 126}, ${nextX} ${nextY}`;
-        points.push({ x: nextX, y: nextY });
-      }
-
-      const stem = makeSvgElement("path", {
-        d: pathData,
-        fill: "none",
-        stroke: side === "left" ? "#456346" : "#4d6c50",
-        "stroke-width": "3.4",
-        "stroke-linecap": "round",
-        "stroke-linejoin": "round",
-        "vector-effect": "non-scaling-stroke",
-        opacity: "0.86"
-      });
-      vineSvg.appendChild(stem);
-      const stemLength = stem.getTotalLength();
-      stem.style.strokeDasharray = stemLength;
-      stem.style.strokeDashoffset = stemLength;
-      vineStems.push({ element: stem, length: stemLength });
-
-      for (let distance = 24, leafIndex = 0; distance < stemLength; distance += 43, leafIndex++) {
-        const point = stem.getPointAtLength(distance);
-        const previous = stem.getPointAtLength(Math.max(0, distance - 1));
-        const next = stem.getPointAtLength(Math.min(stemLength, distance + 1));
-        const tangent = Math.atan2(next.y - previous.y, next.x - previous.x) * 180 / Math.PI;
-        const sideAngle = side === "left"
-          ? (leafIndex % 2 === 0 ? -34 : 146)
-          : (leafIndex % 2 === 0 ? 214 : 34);
-        const leaf = makeSvgElement("g", {
-          transform: `translate(${point.x} ${point.y}) rotate(${tangent + sideAngle})`,
-          opacity: "0"
-        });
-        leaf.dataset.reveal = String(distance / stemLength);
-        const leafColor = leafIndex % 3 === 0 ? "#829c5d" : "#607d4f";
-        leaf.appendChild(makeSvgElement("path", {
-          d: "M 0 0 C 7 -10, 22 -13, 35 -5 C 26 5, 11 8, 0 0 Z",
-          fill: leafColor,
-          stroke: "#3f5c40",
-          "stroke-width": "0.8"
-        }));
-        leaf.appendChild(makeSvgElement("path", {
-          d: "M 2 0 Q 18 -6, 32 -5",
-          fill: "none",
-          stroke: "#c2cf91",
-          "stroke-width": "0.8",
-          opacity: "0.8"
-        }));
-        vineSvg.appendChild(leaf);
-        vineLeaves.push({ element: leaf, reveal: distance / stemLength });
-
-        if (leafIndex % 6 === 2) {
-          const direction = side === "left" ? 1 : -1;
-          const tendril = makeSvgElement("path", {
-            d: `M ${point.x} ${point.y} C ${point.x + direction * 24} ${point.y - 20}, ${point.x + direction * 47} ${point.y - 6}, ${point.x + direction * 34} ${point.y - 30} C ${point.x + direction * 22} ${point.y - 49}, ${point.x + direction * 58} ${point.y - 54}, ${point.x + direction * 48} ${point.y - 71}`,
-            fill: "none",
-            stroke: "#6e8958",
-            "stroke-width": "1.5",
-            "stroke-linecap": "round",
-            opacity: "0"
-          });
-          tendril.dataset.reveal = String(distance / stemLength);
-          vineSvg.appendChild(tendril);
-          vineTendrils.push({ element: tendril, reveal: distance / stemLength });
-        }
-      }
-    }
-
-    function updateVineGrowth() {
-      const pageHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, window.innerHeight);
-      const visibleProgress = Math.min(1, (window.scrollY + window.innerHeight) / pageHeight);
-      const drift = window.scrollY * 0.08;
-      if (vineSvg) {
-        vineSvg.style.transform = `translate3d(0, ${drift}px, 0) rotate(${Math.sin(window.scrollY * 0.01) * 0.7}deg)`;
-      }
-
-      for (const stem of vineStems) {
-        stem.element.style.strokeDashoffset = stem.length * (1 - visibleProgress);
-      }
-      for (const leaf of vineLeaves) {
-        const leafReveal = Math.max(0, Math.min(1, (visibleProgress - leaf.reveal) * 42));
-        leaf.element.style.opacity = leafReveal;
-        leaf.element.style.transform = `translateY(${Math.sin((visibleProgress + leaf.reveal) * 24) * 4}px)`;
-      }
-      for (const tendril of vineTendrils) {
-        const tendrilReveal = Math.max(0, Math.min(0.82, (visibleProgress - tendril.reveal) * 38));
-        tendril.element.style.opacity = tendrilReveal;
-      }
-      vineFramePending = false;
-    }
-
-    function scheduleVineGrowth() {
-      if (vineFramePending) return;
-      vineFramePending = true;
-      window.requestAnimationFrame(updateVineGrowth);
-    }
-
-    function renderPageVines() {
-      const pageWidth = Math.max(document.documentElement.scrollWidth, window.innerWidth || 1200);
-      const pageHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, window.innerHeight * 1.4);
-      vineSvg = makeSvgElement("svg", {
-        class: "page-vines",
-        "aria-hidden": "true",
-        focusable: "false",
-        viewBox: `0 0 ${pageWidth} ${pageHeight}`,
-        preserveAspectRatio: "xMidYMin slice"
-      });
-      vineSvg.style.width = `${pageWidth}px`;
-      vineSvg.style.height = `${pageHeight}px`;
-      vineStems = [];
-      vineLeaves = [];
-      vineTendrils = [];
-      buildVine("left", pageWidth, pageHeight, 431);
-      buildVine("right", pageWidth, pageHeight, 917);
-
-      const existingVines = document.querySelector(".page-vines");
-      if (existingVines) existingVines.remove();
-      document.body.insertBefore(vineSvg, document.body.firstChild);
-      updateVineGrowth();
-    }
-
-    window.addEventListener("scroll", scheduleVineGrowth, { passive: true });
-    window.addEventListener("resize", renderPageVines);
-    renderPageVines();
 
     document.querySelectorAll(".credit-person").forEach((button, index) => {
       button.addEventListener("click", () => {
