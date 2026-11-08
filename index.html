@@ -343,6 +343,33 @@
       line-height: 1.6;
       transition: color 360ms ease, border-color 360ms ease;
     }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 34px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+    }
+    .info-card {
+      padding: 18px 16px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.024);
+    }
+    .info-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--lime);
+      font: 600 13px var(--display);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .info-card p {
+      margin: 0;
+      color: #d9eee4;
+      font-size: 13px;
+      line-height: 1.7;
+    }
     .reference-section { padding: 66px 0 72px; border-bottom: 1px solid var(--line); }
     .community-row {
       display: flex;
@@ -554,7 +581,27 @@
           <h2>Many hands. One suspiciously large toolbox.</h2>
         </div>
         <div class="about-copy">
-          <p>Wiring test comes together through development, animation, and visual effects. rep_sov is the account behind this page, but the game is a team effort. Our unofficial motto: if a wire looks fine, try not to touch it.</p>
+          <p>Wiring test is built around the kind of ideas that define many Roblox town and building games: planning layouts, linking systems, testing interactions, and turning a blank space into a functional place. The page reflects the full team behind that process.</p>
+        </div>
+      </div>
+      <div class="wrap">
+        <div class="info-grid">
+          <article class="info-card">
+            <strong>Town logic</strong>
+            <p>Players often design neighborhoods, utility paths, and public spaces around clear movement and utility needs.</p>
+          </article>
+          <article class="info-card">
+            <strong>Build flow</strong>
+            <p>Open worlds reward layout planning, clean spacing, and systems that feel readable from a distance.</p>
+          </article>
+          <article class="info-card">
+            <strong>Creative tools</strong>
+            <p>Sandbox tools let creators test forms, rework builds, and iterate quickly without losing the overall concept.</p>
+          </article>
+          <article class="info-card">
+            <strong>Community vibes</strong>
+            <p>Roblox town and roleplay spaces often mix creator freedom with social building, shared ideas, and experimentation.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -577,26 +624,26 @@
           <button type="button" class="credit-person" data-member="ano" aria-haspopup="dialog" aria-label="View Ano55467's profile">
             <span class="credit-name">Ano55467</span>
             <span class="credit-handle">@Ano55467 @rep_sov</span>
-            <span class="credit-role">Developer &amp; owner (made most of the game)</span>
-            <span class="credit-prompt">Open field notes &#8599;</span>
+            <span class="credit-role">Builder &amp; systems lead</span>
+            <span class="credit-prompt">View profile &#8599;</span>
           </button>
           <button type="button" class="credit-person" data-member="glaive" aria-haspopup="dialog" aria-label="View Glaive's profile">
             <span class="credit-name">Glaive</span>
             <span class="credit-handle">@G1aaive</span>
             <span class="credit-role">Animator</span>
-            <span class="credit-prompt">Open field notes &#8599;</span>
+            <span class="credit-prompt">View profile &#8599;</span>
           </button>
           <button type="button" class="credit-person" data-member="tavryel" aria-haspopup="dialog" aria-label="View Tavryel's profile">
             <span class="credit-name">Tavryel</span>
             <span class="credit-handle">@Kaninbibi</span>
             <span class="credit-role">VFX artist</span>
-            <span class="credit-prompt">Open field notes &#8599;</span>
+            <span class="credit-prompt">View profile &#8599;</span>
           </button>
           <button type="button" class="credit-person" data-member="bubu" aria-haspopup="dialog" aria-label="View bubu's profile">
             <span class="credit-name">bubu</span>
             <span class="credit-handle">@14bcool</span>
             <span class="credit-role">Developer</span>
-            <span class="credit-prompt">Open field notes &#8599;</span>
+            <span class="credit-prompt">View profile &#8599;</span>
           </button>
         </div>
       </div>
@@ -661,30 +708,30 @@
       ano: {
         name: "Ano55467",
         handle: "@Ano55467 @rep_sov",
-        role: "Developer & owner",
-        detail: "Made most of Wiring test and keeps the big picture moving, from game systems to all the little pieces that somehow become a whole game.",
-        signature: "Workshop rumor: can find a missing part faster than the game can replicate it."
+        role: "Builder & systems lead",
+        detail: "Helps shape the build structure, player-facing systems, and the overall direction of the project so the world feels coherent and usable.",
+        signature: "Role note: keeps the map and game logic aligned."
       },
       glaive: {
         name: "Glaive",
         handle: "@G1aaive",
         role: "Animator",
-        detail: "Brings the movement and timing that make characters and moments feel alive instead of like they are waiting for the bus.",
-        signature: "Specialty: making stillness look suspiciously intentional."
+        detail: "Adds motion timing and visual polish that help the space feel active, readable, and more alive during play.",
+        signature: "Role note: focuses on movement and pacing."
       },
       tavryel: {
         name: "Tavryel",
         handle: "@Kaninbibi",
         role: "VFX artist",
-        detail: "Adds the visual effects that give Wiring test its sparks, atmosphere, and those little moments that make you look twice.",
-        signature: "Field report: if it glows, someone cared about the glow."
+        detail: "Creates effects and atmosphere that reinforce energy, feedback, and visual identity without overwhelming the build itself.",
+        signature: "Role note: builds the sparkle and atmosphere."
       },
       bubu: {
         name: "bubu",
         handle: "@14bcool",
         role: "Developer",
-        detail: "Builds and improves the game alongside the rest of the crew, turning ideas into more things players can actually do.",
-        signature: "Debugging motto: it worked five minutes ago."
+        detail: "Works on gameplay support, iterative fixes, and the practical pieces that keep the experience running smoothly over time.",
+        signature: "Role note: helps turn ideas into playable systems."
       }
     };
     const teamQuotes = [
@@ -809,15 +856,22 @@
     function updateVineGrowth() {
       const pageHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight, window.innerHeight);
       const visibleProgress = Math.min(1, (window.scrollY + window.innerHeight) / pageHeight);
+      const drift = window.scrollY * 0.08;
+      if (vineSvg) {
+        vineSvg.style.transform = `translate3d(0, ${drift}px, 0) rotate(${Math.sin(window.scrollY * 0.01) * 0.7}deg)`;
+      }
 
       for (const stem of vineStems) {
         stem.element.style.strokeDashoffset = stem.length * (1 - visibleProgress);
       }
       for (const leaf of vineLeaves) {
-        leaf.element.style.opacity = Math.max(0, Math.min(1, (visibleProgress - leaf.reveal) * 45));
+        const leafReveal = Math.max(0, Math.min(1, (visibleProgress - leaf.reveal) * 42));
+        leaf.element.style.opacity = leafReveal;
+        leaf.element.style.transform = `translateY(${Math.sin((visibleProgress + leaf.reveal) * 24) * 4}px)`;
       }
       for (const tendril of vineTendrils) {
-        tendril.element.style.opacity = Math.max(0, Math.min(0.82, (visibleProgress - tendril.reveal) * 45));
+        const tendrilReveal = Math.max(0, Math.min(0.82, (visibleProgress - tendril.reveal) * 38));
+        tendril.element.style.opacity = tendrilReveal;
       }
       vineFramePending = false;
     }
