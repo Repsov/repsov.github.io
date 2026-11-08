@@ -277,6 +277,49 @@
     }
     .about-copy { max-width: 460px; color: #d0d9d2; font-size: 14px; line-height: 1.8; }
     .about-copy p { margin-bottom: 0; }
+    .reference-section { padding: 66px 0 72px; border-bottom: 1px solid var(--line); }
+    .community-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 58px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--line);
+    }
+    .community-row h2, .reference-heading {
+      margin: 0;
+      font: 600 30px/1.15 var(--display);
+    }
+    .community-row .section-kicker, .reference-section .section-kicker { margin-bottom: 10px; }
+    .discord-button { flex: 0 0 auto; background: var(--forest); color: white; }
+    .discord-button:hover { background: #315a4c; }
+    .reference-heading { margin-bottom: 24px; }
+    .credits-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 24px;
+      margin-bottom: 58px;
+    }
+    .credit-name { display: block; margin-bottom: 7px; font: 600 17px var(--display); }
+    .credit-handle, .credit-role { display: block; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .credit-role { margin-top: 5px; color: var(--ink); font-weight: 600; }
+    .command-list {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 9px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .command-list code {
+      display: block;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      color: var(--forest);
+      font: 600 12px var(--body);
+      overflow-wrap: anywhere;
+    }
     .site-footer { min-height: 82px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
     .footer-note { margin: 0; color: var(--muted); font-size: 11px; }
     .footer-link { color: var(--ink); font-size: 12px; font-weight: 700; text-decoration: none; }
@@ -302,6 +345,11 @@
       .scene-frame { aspect-ratio: 1.12 / 1; }
       .about-inner { grid-template-columns: 1fr; gap: 20px; padding: 39px 0; }
       .about-band h2 { font-size: 29px; }
+      .reference-section { padding: 48px 0 54px; }
+      .community-row { align-items: flex-start; flex-direction: column; margin-bottom: 42px; }
+      .credits-grid { grid-template-columns: 1fr 1fr; row-gap: 22px; margin-bottom: 44px; }
+      .command-list { grid-template-columns: 1fr 1fr; }
+      .community-row h2, .reference-heading { font-size: 26px; }
       .site-footer { min-height: 72px; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -320,6 +368,8 @@
       <nav class="nav-links" aria-label="Main navigation">
         <a href="#work">Builds</a>
         <a href="#about">About</a>
+        <a href="#credits">Credits</a>
+        <a href="#commands">Commands</a>
       </nav>
       <span class="availability">Building on Roblox</span>
     </div>
@@ -337,6 +387,7 @@
             Join Wiring test <span class="button-arrow" aria-hidden="true">&#8599;</span>
           </a>
           <a class="button button-secondary" href="#work">Explore the builds</a>
+          <a class="button button-secondary" href="https://discord.gg/pz7sDkYYM8" target="_blank" rel="noopener noreferrer">Join the Discord <span class="button-arrow" aria-hidden="true">&#8599;</span></a>
         </div>
         <div class="project-facts">
           <div>
@@ -376,6 +427,70 @@
         <div class="about-copy">
           <p>Wiring test is my Roblox project, built and run by me. Take a look around, try it out, and see what you can make happen.</p>
         </div>
+      </div>
+    </section>
+
+    <section class="reference-section wrap" aria-label="Wiring test community and reference">
+      <div class="community-row">
+        <div>
+          <p class="section-kicker">Wiring test server</p>
+          <h2>Join the community.</h2>
+        </div>
+        <a class="button discord-button" href="https://discord.gg/pz7sDkYYM8" target="_blank" rel="noopener noreferrer">
+          Join Discord <span class="button-arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      </div>
+
+      <div id="credits">
+        <p class="section-kicker">The people behind the game</p>
+        <h2 class="reference-heading">Credits</h2>
+        <div class="credits-grid">
+          <div>
+            <span class="credit-name">Ano55467</span>
+            <span class="credit-handle">@Ano55467 @rep_sov</span>
+            <span class="credit-role">Developer &amp; owner (made most of the game)</span>
+          </div>
+          <div>
+            <span class="credit-name">Glaive</span>
+            <span class="credit-handle">@G1aaive</span>
+            <span class="credit-role">Animator</span>
+          </div>
+          <div>
+            <span class="credit-name">Tavryel</span>
+            <span class="credit-handle">@Kaninbibi</span>
+            <span class="credit-role">VFX artist</span>
+          </div>
+          <div>
+            <span class="credit-name">bubu</span>
+            <span class="credit-handle">@14bcool</span>
+            <span class="credit-role">Developer</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="commands">
+        <p class="section-kicker">In-game reference</p>
+        <h2 class="reference-heading">Commands</h2>
+        <ul class="command-list">
+          <li><code>!cmds</code></li>
+          <li><code>!settings</code></li>
+          <li><code>!spawn / !s</code></li>
+          <li><code>!passive / !p</code></li>
+          <li><code>!setspawn / !sts</code></li>
+          <li><code>!setspawnarmor / !sta</code></li>
+          <li><code>!savegui / !sg</code></li>
+          <li><code>!nsave / !ns</code></li>
+          <li><code>!nload / !nl</code></li>
+          <li><code>!createplot / !pc</code></li>
+          <li><code>!removeplot / !rmp</code></li>
+          <li><code>!clearplot / !clp</code></li>
+          <li><code>!clearoutsideparts / !clp</code></li>
+          <li><code>!ptrust / !pt</code></li>
+          <li><code>!puntrust / !rmpt</code></li>
+          <li><code>!btools / !bt</code></li>
+          <li><code>!wireconnections / !wc</code></li>
+          <li><code>!unwireconnections / !uwc</code></li>
+        </ul>
       </div>
     </section>
   </main>
